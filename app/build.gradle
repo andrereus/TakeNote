@@ -67,7 +67,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     // Room library as an abstraction for creating and using a local SQLite database
-    // Kapt for Room annotations (also added under plugins)
+    // Kapt for Room annotations (also added under plugins at the top)
     def room_version = "2.5.2"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

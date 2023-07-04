@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 // Database Model
-// Entity defines the table in the database
+// Entity defines a table in the database
 @Entity
 data class Note(
     @PrimaryKey(autoGenerate = true)
