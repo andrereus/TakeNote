@@ -1,5 +1,6 @@
 package com.andre.takenote
 
+// User events for the ViewModel
 sealed interface NoteEvent {
     object SaveNote: NoteEvent
     data class SetTitle(val title: String): NoteEvent
