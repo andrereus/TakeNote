@@ -64,7 +64,34 @@ class NoteViewModel(
                     isAddingNote = false
                 ) }
             }
-            NoteEvent.SaveNote -> TODO()
+            NoteEvent.SaveNote -> {
+                // Get input
+                val title = state.value.title
+                val text = state.value.text
+
+                // Check if empty
+                if(title.isBlank() || text.isBlank()) {
+                    return
+                }
+
+                // Create note object
+                val note = Note(
+                    title = title,
+                    text = text
+                )
+
+                // Upsert into database asynchronously
+                viewModelScope.launch {
+                    dao.upsertNote(note)
+                }
+
+                // Update state: Close dialog and empty input fields
+                _state.update { it.copy(
+                    isAddingNote = false,
+                    title = "",
+                    text = ""
+                ) }
+            }
             is NoteEvent.SetText -> {
                 _state.update { it.copy(
                     text = event.text
