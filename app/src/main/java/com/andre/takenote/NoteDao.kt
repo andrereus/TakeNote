@@ -23,6 +23,9 @@ interface NoteDao {
     // Room doesn't provide "read" or "get", so it needs to be implemented with @Query
     // Flow is used to get realtime updates as soon as something changes in the database
     // (reactive streams / observables)
-    @Query("SELECT * FROM note")
-    fun getNotes(): Flow<List<Note>>
+    @Query("SELECT * FROM note ORDER BY id ASC")
+    fun getNotesOrderedById(): Flow<List<Note>>
+
+    @Query("SELECT * FROM note ORDER BY title ASC")
+    fun getNotesOrderedByTitle(): Flow<List<Note>>
 }

@@ -5,5 +5,6 @@ data class NoteState(
     val notes: List<Note> = emptyList(),
     val title: String = "",
     val text: String = "",
-    val isAddingNote: Boolean = false
+    val isAddingNote: Boolean = false,
+    val sortType: SortType = SortType.ID
 )

@@ -7,5 +7,6 @@ sealed interface NoteEvent {
     data class SetText(val text: String): NoteEvent
     object ShowDialog: NoteEvent
     object HideDialog: NoteEvent
+    data class SortNotes(val sortType: SortType): NoteEvent
     data class DeleteNote(val note: Note): NoteEvent
 }
