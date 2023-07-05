@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 // Connect Entity and DAO for Room to use
-// (no migrations for now)
+// (No migrations for now, use in bigger apps / for production)
 @Database(
     entities = [Note::class],
     version = 1
