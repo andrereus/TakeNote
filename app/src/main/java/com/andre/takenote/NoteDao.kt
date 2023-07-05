@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
     // "@Upsert" updates if note already exists and inserts if it doesn't exist
+    // (no conflict strategy needed with @Insert)
     // "suspend" is for coroutines/asynchronous tasks (no callbacks needed)
     @Upsert
     suspend fun upsertNote(note: Note)
