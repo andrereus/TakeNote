@@ -19,7 +19,7 @@ class NoteViewModel(
 ): ViewModel() {
     private val _sortType = MutableStateFlow(SortType.ID)
 
-    // Flow specific notation for the "reactive" sorting feature
+    // Flow specific notation to enable the reactive sorting feature
     // "flatMapLatest" is comparable to RxJS / Observables in the Angular Framework
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _notes = _sortType
