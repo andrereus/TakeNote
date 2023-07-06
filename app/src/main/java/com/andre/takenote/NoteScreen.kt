@@ -29,23 +29,15 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteScreen(
-    state: NoteState,
-    onEvent: (NoteEvent) -> Unit
-) {
+fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                onEvent(NoteEvent.ShowDialog)
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add note"
-                )
+            FloatingActionButton(onClick = { onEvent(NoteEvent.ShowDialog) }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
             }
         }
     ) { _ ->
-        if(state.isAddingNote) {
+        if (state.isAddingNote) {
             AddNoteDialog(state = state, onEvent = onEvent)
         }
         LazyColumn(
@@ -62,43 +54,26 @@ fun NoteScreen(
                 ) {
                     SortType.values().forEach { sortType ->
                         Row(
-                            modifier = Modifier
-                                .clickable {
-                                    onEvent(NoteEvent.SortNotes(sortType))
-                                },
+                            modifier = Modifier.clickable { onEvent(NoteEvent.SortNotes(sortType)) },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
                                 selected = state.sortType == sortType,
-                                onClick = {
-                                    onEvent(NoteEvent.SortNotes(sortType))
-                                }
+                                onClick = { onEvent(NoteEvent.SortNotes(sortType)) }
                             )
                             Text(text = sortType.name)
                         }
                     }
                 }
             }
-            items(state.notes) {note ->
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = note.title,
-                            fontSize = 20.sp
-                        )
+            items(state.notes) { note ->
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = note.title, fontSize = 20.sp)
                         Text(text = note.text, fontSize = 12.sp)
                     }
-                    IconButton(onClick = {
-                        onEvent(NoteEvent.DeleteNote(note))
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete note"
-                        )
+                    IconButton(onClick = { onEvent(NoteEvent.DeleteNote(note)) }) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete note")
                     }
                 }
             }

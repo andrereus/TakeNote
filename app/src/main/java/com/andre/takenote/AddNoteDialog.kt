@@ -16,49 +16,28 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNoteDialog(
-    state: NoteState,
-    onEvent: (NoteEvent) -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun AddNoteDialog(state: NoteState, onEvent: (NoteEvent) -> Unit, modifier: Modifier = Modifier) {
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = {
-            onEvent(NoteEvent.HideDialog)
-        },
+        onDismissRequest = { onEvent(NoteEvent.HideDialog) },
         title = { Text(text = "Add note") },
         text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 TextField(
                     value = state.title,
-                    onValueChange = {
-                        onEvent(NoteEvent.SetTitle(it))
-                    },
-                    placeholder = {
-                        Text(text = "Title")
-                    }
+                    onValueChange = { onEvent(NoteEvent.SetTitle(it)) },
+                    placeholder = { Text(text = "Title") }
                 )
                 TextField(
                     value = state.text,
-                    onValueChange = {
-                        onEvent(NoteEvent.SetText(it))
-                    },
-                    placeholder = {
-                        Text(text = "Text")
-                    }
+                    onValueChange = { onEvent(NoteEvent.SetText(it)) },
+                    placeholder = { Text(text = "Text") }
                 )
             }
         },
         confirmButton = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                Button(onClick = {
-                    onEvent(NoteEvent.SaveNote)
-                }) {
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                Button(onClick = { onEvent(NoteEvent.SaveNote) }) {
                     Text(text = "Save")
                 }
             }

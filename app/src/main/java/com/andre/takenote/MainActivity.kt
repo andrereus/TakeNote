@@ -15,12 +15,9 @@ class MainActivity : ComponentActivity() {
     // To avoid initializing the database here, use dependency injection like Dagger Hilt
     // (Recommended for bigger apps / for production)
     private val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            NoteDatabase::class.java,
-            "notes.db"
-        ).build()
+        Room.databaseBuilder(applicationContext, NoteDatabase::class.java, "notes.db").build()
     }
+
     // To avoid using a factory, also use something like Dagger Hilt
     private val viewModel by viewModels<NoteViewModel>(
         factoryProducer = {
@@ -31,6 +28,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
