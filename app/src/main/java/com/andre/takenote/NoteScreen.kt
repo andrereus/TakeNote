@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -53,23 +55,21 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
 
         Column(modifier = Modifier.fillMaxSize()) {
             Box {
-                Button(
-                    onClick = { expanded = true },
-                    shape = RoundedCornerShape(4.dp)
-                ) {
+                Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = state.sortType.name)
+                        Spacer(modifier = Modifier.weight(1f))
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = "Open Dropdown",
-                            modifier = Modifier.padding(start = 4.dp)
+                            contentDescription = "Open Dropdown"
                         )
                     }
                 }
 
                 DropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.fillMaxWidth(0.9f)
                 ) {
                     SortType.values().forEach { sortType ->
                         DropdownMenuItem(
@@ -84,7 +84,9 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
 
             LazyColumn(
                 contentPadding = padding,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.notes) { note ->
@@ -92,10 +94,18 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp)
+                        ) {
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(text = note.title, fontSize = 20.sp)
-                                Text(text = note.text, fontSize = 12.sp)
+                                Text(
+                                    text = note.title,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.ExtraBold
+                                )
+                                Text(text = note.text, fontSize = 16.sp)
                             }
 
                             IconButton(onClick = { onEvent(NoteEvent.DeleteNote(note)) }) {
