@@ -58,7 +58,9 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Sorted by ${state.sortType.name}")
+
                         Spacer(modifier = Modifier.weight(1f))
+
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = "Open Dropdown"
@@ -105,6 +107,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.ExtraBold
                                 )
+
                                 Text(text = note.text, fontSize = 16.sp)
                             }
 
