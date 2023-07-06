@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,10 +29,13 @@ fun AddNoteDialog(state: NoteState, onEvent: (NoteEvent) -> Unit, modifier: Modi
                     onValueChange = { onEvent(NoteEvent.SetTitle(it)) },
                     placeholder = { Text(text = "Title") }
                 )
+
                 TextField(
                     value = state.text,
                     onValueChange = { onEvent(NoteEvent.SetText(it)) },
-                    placeholder = { Text(text = "Text") }
+                    placeholder = { Text(text = "Text") },
+                    maxLines = Int.MAX_VALUE,
+                    modifier = Modifier.height(150.dp)
                 )
             }
         },
