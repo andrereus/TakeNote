@@ -57,7 +57,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
             Box {
                 Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = state.sortType.name)
+                        Text(text = "Sorted by ${state.sortType.name}")
                         Spacer(modifier = Modifier.weight(1f))
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -73,7 +73,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 ) {
                     SortType.values().forEach { sortType ->
                         DropdownMenuItem(
-                            text = { Text(text = sortType.name) },
+                            text = { Text(text = "Sort by ${sortType.name}") },
                             onClick = {
                                 onEvent(NoteEvent.SortNotes(sortType))
                                 expanded = false
