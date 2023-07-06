@@ -29,11 +29,16 @@ class MainActivity : ComponentActivity() {
         }
     )
 
+    // Override onCreate of ComponentActivity
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Call/Invoke onCreate from ComponentActivity
         super.onCreate(savedInstanceState)
         setContent {
+            // Theme from com.andre.takenote.ui.theme
             TakeNoteTheme {
+                // Connect ViewModel and UI
                 val state by viewModel.state.collectAsState()
+                // NoteScreen Composable
                 NoteScreen(state = state, onEvent = viewModel::onEvent)
             }
         }
