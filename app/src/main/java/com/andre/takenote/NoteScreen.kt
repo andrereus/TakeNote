@@ -32,7 +32,9 @@ import androidx.compose.ui.unit.sp
 fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { onEvent(NoteEvent.ShowDialog) }) {
+            FloatingActionButton(onClick = {
+                onEvent(NoteEvent.ShowDialog)
+            }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
             }
         }
@@ -54,12 +56,16 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 ) {
                     SortType.values().forEach { sortType ->
                         Row(
-                            modifier = Modifier.clickable { onEvent(NoteEvent.SortNotes(sortType)) },
+                            modifier = Modifier.clickable {
+                                onEvent(NoteEvent.SortNotes(sortType))
+                            },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
                                 selected = state.sortType == sortType,
-                                onClick = { onEvent(NoteEvent.SortNotes(sortType)) }
+                                onClick = {
+                                    onEvent(NoteEvent.SortNotes(sortType))
+                                }
                             )
                             Text(text = sortType.name)
                         }
@@ -72,7 +78,9 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                         Text(text = note.title, fontSize = 20.sp)
                         Text(text = note.text, fontSize = 12.sp)
                     }
-                    IconButton(onClick = { onEvent(NoteEvent.DeleteNote(note)) }) {
+                    IconButton(onClick = {
+                        onEvent(NoteEvent.DeleteNote(note))
+                    }) {
                         Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete note")
                     }
                 }

@@ -14,22 +14,18 @@ import kotlinx.coroutines.launch
 // ViewModel
 // UI elements pass events to ViewModel and ViewModel passes state to UI elements
 // Pass in DAO to interact with the database
-class NoteViewModel(
-    private val dao: NoteDao
-): ViewModel() {
+class NoteViewModel(private val dao: NoteDao) : ViewModel() {
     private val _sortType = MutableStateFlow(SortType.ID)
 
     // Flow specific notation to enable the reactive sorting feature
     // "flatMapLatest" is comparable to RxJS / Observables in the Angular Framework
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val _notes = _sortType
-        .flatMapLatest { sortType ->
-            when(sortType) {
-                SortType.ID -> dao.getNotesOrderedById()
-                SortType.TITLE -> dao.getNotesOrderedByTitle()
-            }
+    private val _notes = _sortType.flatMapLatest { sortType ->
+        when (sortType) {
+            SortType.ID -> dao.getNotesOrderedById()
+            SortType.TITLE -> dao.getNotesOrderedByTitle()
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     // Host state for UI
     // Create MutableStateFlow from NoteState.kt
@@ -40,16 +36,13 @@ class NoteViewModel(
     // "combine" is comparable to RxJS
     // Combines multiple Flows into one (in Angular it would be multiple Observers combined into one)
     val state = combine(_state, _sortType, _notes) { state, sortType, notes ->
-        state.copy(
-            notes = notes,
-            sortType = sortType
-        )
+        state.copy(notes = notes, sortType = sortType)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteState())
 
     // Trigger on events in the UI
     fun onEvent(event: NoteEvent) {
         // Check which event
-        when(event) {
+        when (event) {
             // Shortcut: Because of NoteEvent.kt you can press "option + enter" to add from it
             is NoteEvent.DeleteNote -> {
                 // Create coroutine scope because deleteNote() is asynchronous (suspended)
@@ -57,28 +50,27 @@ class NoteViewModel(
                     dao.deleteNote(event.note)
                 }
             }
+
             NoteEvent.HideDialog -> {
                 // "update" feature is coming from MutableStateFlow
                 // "copy" creates a copy with a new NoteState where only isAddingNote is different
-                _state.update { it.copy(
-                    isAddingNote = false
-                ) }
+                _state.update {
+                    it.copy(isAddingNote = false)
+                }
             }
+
             NoteEvent.SaveNote -> {
                 // Get input
                 val title = state.value.title
                 val text = state.value.text
 
                 // Check if empty
-                if(title.isBlank() || text.isBlank()) {
+                if (title.isBlank() || text.isBlank()) {
                     return
                 }
 
                 // Create note object
-                val note = Note(
-                    title = title,
-                    text = text
-                )
+                val note = Note(title = title, text = text)
 
                 // Upsert into database asynchronously
                 viewModelScope.launch {
@@ -86,27 +78,29 @@ class NoteViewModel(
                 }
 
                 // Update state: Close dialog and empty input fields
-                _state.update { it.copy(
-                    isAddingNote = false,
-                    title = "",
-                    text = ""
-                ) }
+                _state.update {
+                    it.copy(isAddingNote = false, title = "", text = "")
+                }
             }
+
             is NoteEvent.SetText -> {
-                _state.update { it.copy(
-                    text = event.text
-                ) }
+                _state.update {
+                    it.copy(text = event.text)
+                }
             }
+
             is NoteEvent.SetTitle -> {
-                _state.update { it.copy(
-                    title = event.title
-                ) }
+                _state.update {
+                    it.copy(title = event.title)
+                }
             }
+
             NoteEvent.ShowDialog -> {
-                _state.update { it.copy(
-                    isAddingNote = true
-                ) }
+                _state.update {
+                    it.copy(isAddingNote = true)
+                }
             }
+
             is NoteEvent.SortNotes -> {
                 _sortType.value = event.sortType
             }
