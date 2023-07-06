@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,6 +54,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 TextButton(onClick = { expanded = true }) {
                     Text(state.sortType.name)
                 }
+
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
@@ -73,16 +76,22 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.notes) { note ->
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = note.title, fontSize = 20.sp)
-                            Text(text = note.text, fontSize = 12.sp)
-                        }
-                        IconButton(onClick = { onEvent(NoteEvent.DeleteNote(note)) }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete note"
-                            )
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(text = note.title, fontSize = 20.sp)
+                                Text(text = note.text, fontSize = 12.sp)
+                            }
+
+                            IconButton(onClick = { onEvent(NoteEvent.DeleteNote(note)) }) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete note"
+                                )
+                            }
                         }
                     }
                 }
