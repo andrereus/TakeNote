@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Interestingly the automatically imported Material3 Components need experimental opt in
+// Automatically imported Material3 Components still need experimental opt in
 // State is passed into Component and Events are hoisted to ViewModel (with Lambda)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
