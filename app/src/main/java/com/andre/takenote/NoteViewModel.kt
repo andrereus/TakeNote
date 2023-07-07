@@ -24,6 +24,7 @@ class NoteViewModel(private val dao: NoteDao) : ViewModel() {
         when (sortType) {
             SortType.ID -> dao.getNotesOrderedById()
             SortType.TITLE -> dao.getNotesOrderedByTitle()
+            SortType.TEXT -> dao.getNotesOrderedByText()
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
