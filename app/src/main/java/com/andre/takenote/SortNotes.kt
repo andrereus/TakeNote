@@ -31,9 +31,9 @@ fun SortNotes(
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.padding(top = 12.dp)) {
-        // Because there is no default dropdown as it should be,
-        // it needs to be constructed with a button
-        // (an implementation with a TextField is not a good practice in my opinion)
+        // Because dropdown does not include the actual component that triggers it,
+        // it needs to be opened with a separate button component
+        // (An implementation with a TextField is not a good practice in my opinion)
         Button(onClick = { expanded = true }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // To avoid showing "id" as a type to sort by (not user friendly),
@@ -56,10 +56,8 @@ fun SortNotes(
         }
 
         // DropdownMenu is a popup and can't easily be controlled from the rest of the layout
-        // and padding can't be applied to the outside of the component,
-        // not even from outer components
-        // Because of this fillMaxWidth is reduced by a fraction,
-        // to at least add some space to the edge
+        // and therefore padding can't be applied to the outside of the component
+        // Because of this "fillMaxWidth" is reduced by a fraction to have some spacing
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },

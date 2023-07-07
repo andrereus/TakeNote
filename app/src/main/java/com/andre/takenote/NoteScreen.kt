@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
-    // Interestingly there is no easy way to omit the paddingValues Parameter without warnings
-    // from the IDE if it's not needed (even official example apps use @SuppressLint for it),
-    // in this case it doesn't matter because I need it to push the content down for the TopAppBar
+    // There is no easy way to omit the paddingValues Parameter without warnings
+    // from the IDE if it's not needed (even official example apps use @SuppressLint for it)
+    // In this case it doesn't matter, because I need it to push the content down for the TopAppBar
     Scaffold(
         topBar = {
             // Background color is adjusted to the app theme to match notification bar etc.
@@ -62,7 +62,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
             AddNote(state = state, onEvent = onEvent)
         }
 
-        // Because Column does not have contentPadding parameter like other components for some reason,
+        // Because Column does not have contentPadding parameter like other components like LazyColumn,
         // the PaddingValues that get passed from the Scaffold need to be set manually,
         // to push the content down the exact amount of space of the TopAppBar
         Column(

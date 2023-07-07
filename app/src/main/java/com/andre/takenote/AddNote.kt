@@ -30,7 +30,7 @@ fun AddNote(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 )
 
                 // Because there is no separate component for a multiline text input,
-                // the TextField needs to be modified in it's size and to accept multiple lines
+                // the TextField needs to be modified in it's size and "maxLines" adjusted
                 TextField(
                     value = state.text,
                     onValueChange = { onEvent(NoteEvent.SetText(it)) },
