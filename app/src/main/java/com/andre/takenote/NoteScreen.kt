@@ -37,11 +37,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Interestingly the automatically imported Material3 Components still need experimental opt in
+// Interestingly the automatically imported Material3 Components need experimental opt in
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
-    // Interestingly there is no easy way to omit the paddingValues Parameter if it is not needed,
+    // Interestingly there is no easy way to omit the paddingValues Parameter without warnings
+    // from the IDE if it's not needed (even official example apps use @SuppressLint for it),
     // in this case it doesn't matter because I need it to push the content down for the TopAppBar
     Scaffold(
         topBar = {
@@ -62,20 +63,21 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
 
         var expanded by remember { mutableStateOf(false) }
 
-        // Because Column does not have contentPadding parameter like other components,
+        // Because Column does not have contentPadding parameter like other components for some reason,
         // the PaddingValues that get passed from the Scaffold need to be set manually,
         // to push the content down the exact amount of space of the TopAppBar
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(top = padding.calculateTopPadding())) {
             Box {
-                // Because there is no default dropdown, it needs to be constructed with a button
+                // Because there is no default dropdown as it should be,
+                // it needs to be constructed with a button
                 // An implementation with a TextField is not a good practice in my opinion
                 Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Sorted by ${state.sortType.name}")
 
-                        // Interestingly Spacer needs an additional modifier to apply the
+                        // Interestingly Spacer needs an additional modifier to apply a
                         // default behavior of taking up space automatically
                         Spacer(modifier = Modifier.weight(1f))
 
@@ -87,6 +89,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 }
 
                 // Because there is no easy way to apply padding on the outside of a DropdownMenu,
+                // even from outer Components (because DropdownMenu is another context),
                 // fillMaxWidth is reduced by 10% to add some space to the edge
                 DropdownMenu(
                     expanded = expanded,
