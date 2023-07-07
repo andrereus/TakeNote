@@ -76,7 +76,11 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 // (an implementation with a TextField is not a good practice in my opinion)
                 Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "Sorted by ${state.sortType.name}")
+                        if (state.sortType == SortType.ID) {
+                            Text(text = "Default sort order")
+                        } else {
+                            Text(text = "Sorted by ${state.sortType.name.lowercase()}")
+                        }
 
                         // Interestingly Spacer needs an additional modifier to apply a
                         // default behavior of taking up space automatically
@@ -101,7 +105,13 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 ) {
                     SortType.values().forEach { sortType ->
                         DropdownMenuItem(
-                            text = { Text(text = "Sort by ${sortType.name}") },
+                            text = {
+                                if (sortType == SortType.ID) {
+                                    Text(text = "Default sort order")
+                                } else {
+                                    Text(text = "Sort by ${sortType.name.lowercase()}")
+                                }
+                            },
                             onClick = {
                                 onEvent(NoteEvent.SortNotes(sortType))
                                 expanded = false
