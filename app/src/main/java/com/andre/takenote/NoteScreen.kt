@@ -23,9 +23,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +49,8 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("TakeNote") }
+                title = { Text("TakeNote", color = MaterialTheme.colorScheme.onPrimary) },
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
             )
         },
         floatingActionButton = {
@@ -70,7 +73,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 .fillMaxSize()
                 .padding(start = 12.dp, top = padding.calculateTopPadding(), end = 12.dp)
         ) {
-            Box {
+            Box(modifier = Modifier.padding(top = 12.dp)) {
                 // Because there is no default dropdown as it should be,
                 // it needs to be constructed with a button
                 // (an implementation with a TextField is not a good practice in my opinion)
