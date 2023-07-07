@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,10 +37,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// Interestingly the automatically imported Material3 Components still need experimental opt in
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
+    // Interestingly there is no easy way to omit the paddingValues Parameter if it is not needed,
+    // in this case it doesn't matter because I need it to push the content down for the TopAppBar
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("TakeNote") }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { onEvent(NoteEvent.ShowDialog) }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
@@ -53,12 +62,21 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
 
         var expanded by remember { mutableStateOf(false) }
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        // Because Column does not have contentPadding parameter like other components,
+        // the PaddingValues that get passed from the Scaffold need to be set manually,
+        // to push the content down the exact amount of space of the TopAppBar
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(top = padding.calculateTopPadding())) {
             Box {
+                // Because there is no default dropdown, it needs to be constructed with a button
+                // An implementation with a TextField is not a good practice in my opinion
                 Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Sorted by ${state.sortType.name}")
 
+                        // Interestingly Spacer needs an additional modifier to apply the
+                        // default behavior of taking up space automatically
                         Spacer(modifier = Modifier.weight(1f))
 
                         Icon(
@@ -68,6 +86,8 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                     }
                 }
 
+                // Because there is no easy way to apply padding on the outside of a DropdownMenu,
+                // fillMaxWidth is reduced by 10% to add some space to the edge
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
@@ -85,7 +105,6 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
             }
 
             LazyColumn(
-                contentPadding = padding,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 12.dp),
