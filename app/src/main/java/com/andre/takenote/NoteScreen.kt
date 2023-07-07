@@ -63,6 +63,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
             AddNoteDialog(state = state, onEvent = onEvent)
         }
 
+        // State only needed for dropdown expansion
         var expanded by remember { mutableStateOf(false) }
 
         // Because Column does not have contentPadding parameter like other components for some reason,
