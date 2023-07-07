@@ -50,7 +50,9 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
         topBar = {
             TopAppBar(
                 title = { Text("TakeNote", color = MaterialTheme.colorScheme.onPrimary) },
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
             )
         },
         floatingActionButton = {
