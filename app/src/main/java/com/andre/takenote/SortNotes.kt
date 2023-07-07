@@ -41,8 +41,7 @@ fun SortNotes(
                     Text(text = "Sorted by ${state.sortType.name.lowercase()}")
                 }
 
-                // Interestingly Spacer needs an additional modifier to apply a
-                // default behavior of taking up space automatically
+                // Spacer to avoid adding Modifier.weight(1f) to every Text above
                 Spacer(modifier = Modifier.weight(1f))
 
                 Icon(
