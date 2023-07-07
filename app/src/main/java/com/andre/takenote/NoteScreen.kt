@@ -72,7 +72,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
             Box {
                 // Because there is no default dropdown as it should be,
                 // it needs to be constructed with a button
-                // An implementation with a TextField is not a good practice in my opinion
+                // (an implementation with a TextField is not a good practice in my opinion)
                 Button(onClick = { expanded = true }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Sorted by ${state.sortType.name}")
