@@ -26,7 +26,8 @@ fun SortNotes(
     state: NoteState,
     onEvent: (NoteEvent) -> Unit
 ) {
-    // State only needed for dropdown expansion
+    // This dropdown state is only needed for temporary UI state and is not used in other locations,
+    // therefore it is not necessary to have it in the ViewModel for now
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.padding(top = 12.dp)) {
@@ -35,6 +36,9 @@ fun SortNotes(
         // (an implementation with a TextField is not a good practice in my opinion)
         Button(onClick = { expanded = true }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                // To avoid showing "id" as a type to sort by (not user friendly),
+                // check for sortType and customize the text for this case
+                // Also put out the names in lowercase
                 if (state.sortType == SortType.ID) {
                     Text(text = "Default sort order")
                 } else {
@@ -61,6 +65,7 @@ fun SortNotes(
             onDismissRequest = { expanded = false },
             modifier = Modifier.fillMaxWidth(0.93f)
         ) {
+            // Iterate through SortTypes and create dropdown items
             SortType.values().forEach { sortType ->
                 DropdownMenuItem(
                     text = {
