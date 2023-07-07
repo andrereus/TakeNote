@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -34,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -54,8 +57,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
             FloatingActionButton(onClick = { onEvent(NoteEvent.ShowDialog) }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
             }
-        },
-        modifier = Modifier.padding(16.dp)
+        }
     ) { padding ->
         if (state.isAddingNote) {
             AddNoteDialog(state = state, onEvent = onEvent)
@@ -66,9 +68,11 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
         // Because Column does not have contentPadding parameter like other components for some reason,
         // the PaddingValues that get passed from the Scaffold need to be set manually,
         // to push the content down the exact amount of space of the TopAppBar
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(top = padding.calculateTopPadding())) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 12.dp, top = padding.calculateTopPadding(), end = 12.dp)
+        ) {
             Box {
                 // Because there is no default dropdown as it should be,
                 // it needs to be constructed with a button
