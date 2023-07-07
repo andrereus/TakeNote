@@ -62,7 +62,7 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                 .fillMaxSize()
                 .padding(start = 12.dp, top = padding.calculateTopPadding(), end = 12.dp)
         ) {
-            SortNote(state = state, onEvent = onEvent)
+            SortNotes(state = state, onEvent = onEvent)
 
             LazyColumn(
                 modifier = Modifier

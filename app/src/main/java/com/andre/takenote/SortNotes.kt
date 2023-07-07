@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SortNote(
+fun SortNotes(
     state: NoteState,
     onEvent: (NoteEvent) -> Unit
 ) {
