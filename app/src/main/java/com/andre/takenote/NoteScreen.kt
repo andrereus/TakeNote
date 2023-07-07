@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -92,13 +89,15 @@ fun NoteScreen(state: NoteState, onEvent: (NoteEvent) -> Unit) {
                     }
                 }
 
-                // Because there is no easy way to apply padding on the outside of a DropdownMenu,
-                // even from outer Components (because DropdownMenu is another context),
-                // fillMaxWidth is reduced by 10% to add some space to the edge
+                // DropdownMenu is a popup and can't easily be controlled from the rest of the layout
+                // and padding can't be applied to the outside of the component,
+                // not even from outer components
+                // Because of this fillMaxWidth is reduced by a fraction,
+                // to at least add some space to the edge
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
-                    modifier = Modifier.fillMaxWidth(0.9f)
+                    modifier = Modifier.fillMaxWidth(0.93f)
                 ) {
                     SortType.values().forEach { sortType ->
                         DropdownMenuItem(
