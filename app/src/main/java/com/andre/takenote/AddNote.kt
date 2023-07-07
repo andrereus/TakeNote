@@ -17,9 +17,8 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNoteDialog(state: NoteState, onEvent: (NoteEvent) -> Unit, modifier: Modifier = Modifier) {
+fun AddNote(state: NoteState, onEvent: (NoteEvent) -> Unit) {
     AlertDialog(
-        modifier = modifier,
         onDismissRequest = { onEvent(NoteEvent.HideDialog) },
         title = { Text(text = "Add note") },
         text = {
